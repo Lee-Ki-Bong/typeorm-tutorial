@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create/create-product.dto';
 import { UpdateProductDto } from './dto/update/update-product.dto';
+import { ProductDetail } from './entities/product-detail.entity';
 import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
+    @InjectEntityManager() private readonly entityManager: EntityManager,
     @InjectRepository(Product)
     private readonly prdRepo: Repository<Product>,
   ) {}
@@ -43,10 +45,19 @@ export class ProductService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    const product = await this.prdRepo.findOneBy({ p_id: id });
-    const updateProduct = plainToInstance(Product, updateProductDto);
-    const newProduct = await this.prdRepo.update(product.p_id, updateProduct);
-    return newProduct;
+    const res = await this.entityManager.transaction(async (entityManager) => {
+      /**
+      복잡한 요구사항이 발생할 경우엔 여러 레포지토리들을 각각 불러와 작업하여 여러 save or update 호출
+      const prdRepo = entityManager.withRepository(this.prdRepo); // 하나의 트랜잭션 키로 레포지토리 등록.
+      const product = await prdRepo.findOneBy({ p_id: id });
+      */
+
+      const updateProduct = plainToInstance(Product, updateProductDto);
+      updateProduct.p_id = id;
+      const newProduct = await entityManager.save(updateProduct);
+      return newProduct;
+    });
+    return res;
   }
 
   async remove(id: number) {

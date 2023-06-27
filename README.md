@@ -171,3 +171,7 @@ npm install class-validator class-transformer
 - CreateProductDto 에 p_product_tags 추가
 - product 모듈에 ProductTag 엔티티 바인딩
 - 전반적인 관계 작업(읽기, 쓰기)이 자동으로 이루어짐을 확인.
+
+## transaction
+
+- typeorm entityManager를 이용, 트랜젝션을 이용하여 상품 Update 를 구현.
