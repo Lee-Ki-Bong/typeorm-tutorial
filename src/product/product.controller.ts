@@ -21,6 +21,9 @@ export class ProductController {
     return {
       name: BongFaker.product(),
       price: BongFaker.clearPrice(4, 5),
+      product_detail: {
+        description: BongFaker.adjective(),
+      },
     };
   }
 

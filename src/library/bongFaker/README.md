@@ -52,7 +52,7 @@ const cleanPrice = BongFaker.clearPrice(자리수:number); // 1자리 부터 지
 ```
 
 ```javascript
-const randomNumberInRange = BongFaker.number(최소자리수:number, 최대자리수:number); // 지정된 범위 내의 랜덤한 숫자를 반환합니다
+const randomNumberInRange = BongFaker.clearPrice(최소자리수:number, 최대자리수:number); // 지정된 범위 내의 랜덤한 숫자를 반환합니다
 ```
 
 예제 출력: 1000, 3000, 50000

@@ -20,12 +20,17 @@ export class ProductService {
   }
 
   async findAll() {
-    const productList = await this.prdRepo.find();
+    const productList = await this.prdRepo.find({
+      relations: { product_detail: true },
+    });
     return productList;
   }
 
   async findOne(id: number) {
-    const product = await this.prdRepo.findOneBy({ id });
+    const product = await this.prdRepo.findOne({
+      where: { id },
+      relations: { product_detail: true },
+    });
     return product;
   }
 
