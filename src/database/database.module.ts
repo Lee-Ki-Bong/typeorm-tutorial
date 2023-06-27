@@ -15,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.getOrThrow('MYSQL_PASSWORD'),
         autoLoadEntities: true, // 이 옵션을 true 로 줌으로서, 모델이 어디에 있는지 수동으로 알릴 필요가 없음.
         synchronize: configService.getOrThrow('MYSQL_SYNCHRONIZE'), // 동기화 여부
+        // logging: true,
       }),
       inject: [ConfigService], // 위 useFactory 에 의존성 주입을 위해 inject 를 선언한다.
     }),
