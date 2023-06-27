@@ -175,3 +175,121 @@ npm install class-validator class-transformer
 ## transaction
 
 - typeorm entityManager를 이용, 트랜젝션을 이용하여 상품 Update 를 구현.
+
+##
+
+## migration
+
+- 명령어로 마이그래이션을 실행할때, 외부에서 .env 로드하기 위한 패키지 설치
+
+```shell
+yarn add dotenv
+```
+
+```shell
+npm install dotenv
+```
+
+- 마이그레이션 설정 파일 생성 migration.config.ts
+
+- 마이그레이션 생성 명령어 추가 package.json
+
+```javascript
+"scripts": {
+  "typeorm": "ts-node ./node_modules/typeorm/cli",
+  "typeorm:create-migration": "npm run typeorm -- migration:create ./migrations/$npm_config_name"
+}
+```
+
+- 터미널에서 마이그레이션 파일 생성 명령어 실행
+
+```shell
+npm run typeorm:create-migration --name=UpdateProductPrice
+
+> typeorm-tutorial@0.0.1 typeorm:create-migration
+> npm run typeorm -- migration:create ./migrations/$npm_config_name
+
+
+> typeorm-tutorial@0.0.1 typeorm
+> ts-node ./node_modules/typeorm/cli migration:create ./migrations/UpdateProductPrice
+
+Migration /home/typeorm-tutorial/migrations/1687856941912-UpdateProductPrice.ts has been generated successfully.
+npm notice
+npm notice New minor version of npm available! 9.5.1 -> 9.7.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v9.7.2
+npm notice Run npm install -g npm@9.7.2 to update!
+npm notice
+```
+
+- 파일생성 확인 migrations/1687856941912-UpdateProductPrice.ts
+- up(), down() MigrationInterface 함수 구현
+
+- 마이그레이션 실행 명령어 추가 package.json
+
+```javascript
+"typeorm:run-migrations": "npm run typeorm migration:run -- -d ./migration.config.ts",
+"typeorm:revert-migrations": "npm run typeorm migration:revert -- -d ./migration.config.ts"
+```
+
+- 터미널에서 마이그레이션 실행
+  **[UP]**
+
+```shell
+npm run typeorm:run-migrations
+
+> typeorm-tutorial@0.0.1 typeorm:run-migrations
+> npm run typeorm migration:run -- -d ./migration.config.ts
+
+
+> typeorm-tutorial@0.0.1 typeorm
+> ts-node ./node_modules/typeorm/cli migration:run -d ./migration.config.ts
+
+query: SELECT VERSION() AS `version`
+query: SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = 'test' AND `TABLE_NAME` = 'migrations'
+query: CREATE TABLE `migrations` (`id` int NOT NULL AUTO_INCREMENT, `timestamp` bigint NOT NULL, `name` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB
+query: SELECT * FROM `test`.`migrations` `migrations` ORDER BY `id` DESC
+0 migrations are already loaded in the database.
+1 migrations were found in the source code.
+1 migrations are new migrations must be executed.
+query: START TRANSACTION
+[Nest] 2923  - 06/27/2023, 9:28:41 AM     LOG 상품 가격 모두 10000원 으로
+query: UPDATE product set p_price = 10000;
+query: INSERT INTO `test`.`migrations`(`timestamp`, `name`) VALUES (?, ?) -- PARAMETERS: [1687856941912,"UpdateProductPrice1687856941912"]
+Migration UpdateProductPrice1687856941912 has been  executed successfully.
+query: COMMIT
+```
+
+**[Down]**
+
+```shell
+npm run typeorm:revert-migrations
+
+> typeorm-tutorial@0.0.1 typeorm:revert-migrations
+> npm run typeorm migration:revert -- -d ./migration.config.ts
+
+
+> typeorm-tutorial@0.0.1 typeorm
+> ts-node ./node_modules/typeorm/cli migration:revert -d ./migration.config.ts
+
+query: SELECT VERSION() AS `version`
+query: SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = 'test' AND `TABLE_NAME` = 'migrations'
+query: SELECT * FROM `test`.`migrations` `migrations` ORDER BY `id` DESC
+1 migrations are already loaded in the database.
+UpdateProductPrice1687856941912 is the last executed migration. It was executed on Tue Jun 27 2023 09:09:01 GMT+0000 (Coordinated Universal Time).
+Now reverting it...
+query: START TRANSACTION
+[Nest] 2958  - 06/27/2023, 9:29:33 AM     LOG 상품 가격 모두 0원 으로
+query: UPDATE product set p_price = 0;
+query: DELETE FROM `test`.`migrations` WHERE `timestamp` = ? AND `name` = ? -- PARAMETERS: [1687856941912,"UpdateProductPrice1687856941912"]
+Migration UpdateProductPrice1687856941912 has been  reverted successfully.
+query: COMMIT
+```
+
+**[참고]**
+error: Error: Got error 168 - 'Unknown (generic) error from engine' from storage engine
+관련 에러가 난다면
+
+- **데이터베이스 권한 확인**
+- **동일한** 이름을 가진 다른 **객체가 있는지 확인**
+- 실행된 sql 이 MySQL 버전 호환성확인
+- 데이터베이스 status 확인
