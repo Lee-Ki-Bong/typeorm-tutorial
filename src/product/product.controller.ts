@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto } from './dto/create/create-product.dto';
+import { UpdateProductDto } from './dto/update/update-product.dto';
 import { BongFaker } from 'src/library/bongFaker';
 
 @Controller('product')
@@ -18,12 +18,23 @@ export class ProductController {
 
   @Get('test')
   async getTestData() {
+    const productName = BongFaker.product();
     return {
-      name: BongFaker.product(),
-      price: BongFaker.clearPrice(4, 5),
-      product_detail: {
-        description: BongFaker.adjective(),
+      p_name: productName,
+      p_price: BongFaker.clearPrice(4, 5),
+      p_product_detail: {
+        pd_description: BongFaker.adjective(),
       },
+      p_product_options: [
+        {
+          po_name: productName + ' 옵션1',
+          po_value: productName + ' 옵션값1',
+        },
+        {
+          po_name: productName + ' 옵션2',
+          po_value: productName + ' 옵션값2',
+        },
+      ],
     };
   }
 

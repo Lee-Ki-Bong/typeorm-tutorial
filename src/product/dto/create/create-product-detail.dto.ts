@@ -1,3 +1,3 @@
 export class CreateProductDetailDto {
-  description: string;
+  pd_description: string;
 }
