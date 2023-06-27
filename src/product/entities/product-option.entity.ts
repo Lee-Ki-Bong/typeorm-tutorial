@@ -12,6 +12,6 @@ export class ProductOption {
   @Column({ default: '' })
   po_value: string;
 
-  @ManyToOne(() => Product, (product) => product.p_product_options)
-  product: Product;
+  @ManyToOne(() => Product, (po_product) => po_product.p_product_options)
+  po_product: Product;
 }

@@ -121,7 +121,7 @@ npm install class-validator class-transformer
 **[장점]**
 **plainToInstance() 사용하여 엔티티 변환**
 
-1. 중복 제거: DTO와 엔티티 사이의 매핑 및 변환 로직을 중복으로 작성하는 대신, 간편하게 변환가능, 이는 코드의 중복을 줄이고 유지보수성을 향상시킵니다.
+1. 중복 제거: DTO와 엔티티 사이의 매핑 및 변환 로직을 중복으로 작성하는 대신, 간편하게 변환가능, 이는 코드의 중복을 줄이고 유지보수성을 향상.
 2. 일관성: 엔티티를 통해 데이터를 저장하면 데이터베이스에 일관된 구조와 형식으로 저장. DTO를 엔티티로 변환하는 과정을 통해 데이터 일관성을 유지.
 
 ##
@@ -130,7 +130,8 @@ npm install class-validator class-transformer
 
 - 상품과 1:1 관계인 상품상세정보(ProductDetail) 엔티티 생성
 - ProductDetail create dto 생성
-- Product 엔티티에 ProductDetail 관계 추가 & cascade: true 추가
+- Product 엔티티에 p_product_detail 컬럼 추가 & cascade: true 추가 & @JoinColumn() 데커레이터 추가
+- CreateProductDto 에 p_product_detail 추가
 - Product 모듈에 ProductDetail 엔티티 바인딩
 - 위 작업만으로 전반적인 관계 작업(읽기, 쓰기)이 자동으로 이루어짐을 확인.
 
@@ -155,8 +156,18 @@ npm install class-validator class-transformer
 ## relation-one-to-many
 
 - 상품과 1:N 관계인 상품옵션(ProductOption) 엔티티 생성
-- product 엔티티 & productOptions 엔티티 관계 추가
+- product 엔티티 p_product_options 컬럼 추가 & cascade: true 추가
+- ProductOption 엔티티 po_product 엔티티 관계 추가
 - CreateProductOptionDto 추가
-- CreateProductDto 에 productOptions 추가
+- CreateProductDto 에 p_product_options 추가
 - product 모듈에 productOptions 엔티티 바인딩
+- 전반적인 관계 작업(읽기, 쓰기)이 자동으로 이루어짐을 확인.
+
+## relation-many-to-many
+
+- 상품과 N:M 관계인 상품태그(ProductTag) 엔티티 생성
+- product 엔티티 p_product_tags 컬럼 추가 & cascade: true 추가
+- CreateProductTagDto 추가
+- CreateProductDto 에 p_product_tags 추가
+- product 모듈에 ProductTag 엔티티 바인딩
 - 전반적인 관계 작업(읽기, 쓰기)이 자동으로 이루어짐을 확인.

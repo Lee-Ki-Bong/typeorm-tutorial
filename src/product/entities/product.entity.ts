@@ -2,12 +2,15 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductDetail } from './product-detail.entity';
 import { ProductOption } from './product-option.entity';
+import { ProductTag } from './product-tag.entity';
 
 @Entity()
 export class Product {
@@ -24,8 +27,12 @@ export class Product {
   @JoinColumn({ name: 'product_detail_id' })
   p_product_detail: ProductDetail;
 
-  @OneToMany(() => ProductOption, (productOption) => productOption.product, {
+  @OneToMany(() => ProductOption, (productOption) => productOption.po_product, {
     cascade: true,
   })
   p_product_options: ProductOption[];
+
+  @ManyToMany(() => ProductTag, { cascade: true })
+  @JoinTable()
+  p_product_tags: ProductTag[];
 }

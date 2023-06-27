@@ -35,6 +35,14 @@ export class ProductController {
           po_value: productName + ' 옵션값2',
         },
       ],
+      p_product_tags: [
+        {
+          pt_name: BongFaker.adjective() + ' 전자제품',
+        },
+        {
+          pt_name: BongFaker.adjective() + ' 의류',
+        },
+      ],
     };
   }
 
