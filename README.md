@@ -9,6 +9,8 @@ nest new
 ? Which package manager would you ❤️  to use? yarn
 ```
 
+##
+
 - app.controller.ts 삭제
 - app.service.ts 삭제
 - app.module.ts 삭제된 컨트롤러, 서비스 관련 소스 삭제
@@ -71,6 +73,8 @@ MYSQL_SYNCHRONIZE=false
 - ConfigService.**getOrThrow**('MYSQL_HOST') 는 가져올때 없으면 **오류를 발생**시킨다.
 - TypeOrmModuleOptions 에 **autoLoadEntities: true** 로 줌으로서, 엔티티가 어디에 있는지 **수동으로 알릴 필요가 없다.**
 
+##
+
 ## 제너레이터로 product 리소스 생성
 
 ```shell
@@ -81,6 +85,8 @@ nest g res product --no-spec
 
 - **product** 라는 디렉토리가 생성되고, **dto, entities 와 컨트롤러, 서비스, 모듈 생성됨**을 확인.
 - **app.module.ts** 에 product.module.ts 이 **자동으로 바인딩** 됨을 확인.
+
+##
 
 ## product CRUD
 
@@ -112,3 +118,5 @@ npm install class-validator class-transformer
 
 1. 중복 제거: DTO와 엔티티 사이의 매핑 및 변환 로직을 중복으로 작성하는 대신, 간편하게 변환가능, 이는 코드의 중복을 줄이고 유지보수성을 향상시킵니다.
 2. 일관성: 엔티티를 통해 데이터를 저장하면 데이터베이스에 일관된 구조와 형식으로 저장. DTO를 엔티티로 변환하는 과정을 통해 데이터 일관성을 유지.
+
+##
