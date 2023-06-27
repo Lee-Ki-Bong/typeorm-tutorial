@@ -291,5 +291,5 @@ error: Error: Got error 168 - 'Unknown (generic) error from engine' from storage
 
 - **데이터베이스 권한 확인**
 - **동일한** 이름을 가진 다른 **객체가 있는지 확인**
-- 실행된 sql 이 MySQL 버전 호환성확인
+- 실행된 sql MySQL 버전 호환성확인
 - 데이터베이스 status 확인
