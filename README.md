@@ -9,11 +9,11 @@ nest new
 ? Which package manager would you ❤️  to use? yarn
 ```
 
-##
-
 - app.controller.ts 삭제
 - app.service.ts 삭제
 - app.module.ts 삭제된 컨트롤러, 서비스 관련 소스 삭제
+
+##
 
 ## database-module-add
 

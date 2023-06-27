@@ -10,10 +10,19 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { BongFaker } from 'src/library/bongFaker';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
+
+  @Get('test')
+  async getTestData() {
+    return {
+      name: BongFaker.product(),
+      price: BongFaker.clearPrice(4, 5),
+    };
+  }
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
